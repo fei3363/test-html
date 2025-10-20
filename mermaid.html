@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid.js 圖表展示</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .chart-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart-title {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .theme-info {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Mermaid.js 圖表展示</h1>
+
+        <div class="controls">
+            <button onclick="changeTheme('default')">預設主題</button>
+            <button onclick="changeTheme('dark')">深色主題</button>
+            <button onclick="changeTheme('forest')">森林主題</button>
+            <button onclick="changeTheme('neutral')">中性主題</button>
+            <div class="theme-info">點擊按鈕切換圖表主題</div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">📊 流程圖 (Flowchart)</h2>
+            <div class="mermaid">
+                graph TD
+                    A[開始] --> B{是否登入?}
+                    B -->|是| C[顯示主頁面]
+                    B -->|否| D[顯示登入頁面]
+                    D --> E[輸入帳號密碼]
+                    E --> F{驗證成功?}
+                    F -->|是| C
+                    F -->|否| G[顯示錯誤訊息]
+                    G --> E
+                    C --> H[結束]
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">📅 甘特圖 (Gantt Chart)</h2>
+            <div class="mermaid">
+                gantt
+                    title 專案開發時程表
+                    dateFormat  YYYY-MM-DD
+                    section 規劃階段
+                    需求分析           :a1, 2024-01-01, 10d
+                    系統設計           :a2, after a1, 15d
+                    section 開發階段
+                    前端開發           :b1, after a2, 20d
+                    後端開發           :b2, after a2, 25d
+                    section 測試階段
+                    功能測試           :c1, after b1, 10d
+                    整合測試           :c2, after b2, 10d
+                    section 上線
+                    部署上線           :d1, after c2, 5d
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">🔄 狀態圖 (State Diagram)</h2>
+            <div class="mermaid">
+                stateDiagram-v2
+                    [*] --> 閒置
+                    閒置 --> 處理中: 接收請求
+                    處理中 --> 成功: 處理完成
+                    處理中 --> 失敗: 發生錯誤
+                    成功 --> 閒置: 重置
+                    失敗 --> 閒置: 重試
+                    失敗 --> [*]: 放棄
+                    成功 --> [*]: 結束
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">🗂️ 類別圖 (Class Diagram)</h2>
+            <div class="mermaid">
+                classDiagram
+                    class 用戶 {
+                        +String 用戶名
+                        +String 密碼
+                        +String 電郵
+                        +登入()
+                        +登出()
+                        +更新資料()
+                    }
+                    class 管理員 {
+                        +String 權限級別
+                        +管理用戶()
+                        +查看日誌()
+                    }
+                    class 訂單 {
+                        +int 訂單編號
+                        +Date 日期
+                        +float 總金額
+                        +創建訂單()
+                        +取消訂單()
+                    }
+                    用戶 <|-- 管理員
+                    用戶 "1" --> "*" 訂單: 擁有
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">🥧 圓餅圖 (Pie Chart)</h2>
+            <div class="mermaid">
+                pie title 網站流量來源分析
+                    "直接訪問" : 35
+                    "搜尋引擎" : 30
+                    "社交媒體" : 20
+                    "廣告推薦" : 10
+                    "其他" : 5
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="chart-title">🧬 序列圖 (Sequence Diagram)</h2>
+            <div class="mermaid">
+                sequenceDiagram
+                    participant 用戶
+                    participant 前端
+                    participant 後端
+                    participant 資料庫
+                    
+                    用戶->>前端: 提交登入表單
+                    前端->>後端: 發送登入請求
+                    後端->>資料庫: 查詢用戶資料
+                    資料庫-->>後端: 返回用戶資料
+                    後端->>後端: 驗證密碼
+                    後端-->>前端: 返回登入結果
+                    前端-->>用戶: 顯示登入狀態
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // 切換主題功能
+        function changeTheme(theme) {
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: theme,
+                securityLevel: 'loose',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+            
+            // 重新渲染所有圖表
+            location.reload();
+        }
+    </script>
+</body>
+</html>
